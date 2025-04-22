@@ -1,0 +1,166 @@
+const canvas = document.getElementById("canvas");
+let alertStatus=false;
+
+if (canvas.getContext) {
+    const ctx = canvas.getContext("2d");
+    
+    ctx.imageSmoothingEnabled = false; 
+    
+    let bw=0;
+    const map = new Image(); 
+    map.src = "./assests/mainMap.png"; 
+    function drawCanvas(){
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+            ctx.drawImage(map, 0+bw*5, 0, 1920/2, 1080,0, 0, 1920/1.5, 1080*2);
+    };
+    map.addEventListener("load",drawCanvas);
+
+    let hw=0;
+    let vw=0;
+    let xc=-180-hw*5; 
+    let yc=-50-5*vw;
+
+    const bgmusic=new Audio("./assests/bgmusic.mp3");
+    bgmusic.play();
+
+    const rightwalk1 = new Image(); 
+    rightwalk1.src = "./assests/rightwalkkkk.png"; 
+    const rightstand = new Image();
+    rightstand.src = "./assests/rightstand.png"; 
+    const rightwalk2 = new Image(); 
+    rightwalk2.src = "./assests/rightwalk2.png"; 
+    const arrRightWalk=[rightwalk1, rightwalk2];
+
+    const leftwalk1 = new Image(); 
+    leftwalk1.src = "./assests/player-left-1.png"; 
+    const leftstand = new Image();
+    leftstand.src = "./assests/player-left-stand.png"; 
+    const leftwalk2 = new Image(); 
+    leftwalk2.src = "./assests/player-left-2.png"; 
+    const arrLeftWalk=[leftwalk1, leftwalk2];
+    
+    const upwalk1 = new Image(); 
+    upwalk1.src = "./assests/player-up-1.png"; 
+    const upstand = new Image();
+    upstand.src = "./assests/player-up-stand.png"; 
+    const upwalk2 = new Image(); 
+    upwalk2.src = "./assests/player-up-2.png"; 
+    const arrUpWalk=[upwalk1, upwalk2];
+
+    const downwalk1 = new Image(); 
+    downwalk1.src = "./assests/player-down-1.png"; 
+    const downstand = new Image();
+    downstand.src = "./assests/player-down-stand.png"; 
+    const downwalk2 = new Image(); 
+    downwalk2.src = "./assests/player-down-2.png"; 
+    const arrDownWalk=[downwalk1, downwalk2];
+
+    let walk=rightstand;
+
+    function walking(){
+        if(alertStatus===false){      
+            if(xc<=225&&xc>=190){
+                if(yc===120){
+                    alert("Hit enter to fight a wild pokemon.");
+                    alertStatus=true;
+                }
+            }
+        }
+        xc=Math.abs(-180-hw*5); 
+        yc=Math.abs(-50-5*vw);
+        console.log(xc,yc);
+        ctx.drawImage(walk,-180-hw*5,-50-5*vw, 960, 540,0, 0, 1000, 1000);
+        ctx.imageSmoothingEnabled = false; 
+        console.log(hw,vw); 
+        // array[yc][xc]=1;  
+    }
+    walk.addEventListener("load",walking);
+
+    window.onkeydown=function event(event){
+        if(event.key==="ArrowRight"){
+            if(hw<114){
+                console.log(arraytest[-(-50-5*(vw))][-(-180-(hw+1)*5)]);
+                if(arraytest[-(-50-5*(vw))][-(-180-(hw+1)*5)]===1){
+                    hw++;
+                    walk=arrRightWalk[Math.abs(hw)%2];
+                    console.log(Math.abs(hw)%2);
+                    console.log("right clicked");
+                    if(60>hw&&hw>=28){
+                        bw++;
+                    }
+                }
+            }
+        }
+        else{
+            if(event.key==="ArrowLeft"){
+                if(arraytest[-(-50-5*(vw))][-(-180-(hw-1)*5)]===1){
+                    if(60>hw&&hw>=28){
+                        bw--;
+                    }
+                    hw--;
+                    walk=arrLeftWalk[Math.abs(hw)%2];
+                    console.log(Math.abs(hw)%2);
+                    console.log("left clicked");
+                }
+            }
+            else{
+                
+                if(event.key==="ArrowDown"){
+                    if(arraytest[-(-50-5*(vw+1))][-(-180-(hw)*5)]===1){
+                        vw++;
+                        walk=arrDownWalk[Math.abs(vw)%2];
+                        console.log(Math.abs(vw)%2);
+                        console.log("down clicked");
+                    }
+                }
+                else{
+                    if(event.key==="ArrowUp"){
+                        if(arraytest[-(-50-5*(vw-1))][-(-180-(hw)*5)]===1){
+                            vw--;
+                            walk=arrUpWalk[Math.abs(vw)%2];
+                            console.log(Math.abs(vw)%2);
+                            console.log("up clicked");
+                        }
+                    }
+                }
+            }
+        }
+        if(event.key==="Enter"){
+            if(alertStatus===true){
+                window.location.href="selection.html";
+            }
+        }
+        drawCanvas();
+        walking();
+    }
+    window.onkeyup=function event(event){
+        if(event.key==="ArrowRight"){
+            if(hw<88){      
+                walk=rightstand;
+                console.log("rightkey up");
+            };
+        }
+        if(event.key==="ArrowLeft"){
+            walk=leftstand;
+            console.log("leftkey up");
+        }
+        if(event.key==="ArrowUp"){
+            walk=upstand;
+            console.log("upkey up");
+        }
+        if(event.key==="ArrowDown"){
+            walk=downstand;
+            console.log("downkey up");
+        }
+        if(event.key==="s"){
+            console.log(array);
+        }
+        drawCanvas();
+        walking();
+    };
+    
+
+} else {
+    console.log("Canvas not supported");
+}
+

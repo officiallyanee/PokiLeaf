@@ -116,6 +116,8 @@ window.onload=async function(){
     turnMoveFoe3= await (await fetch(pokemonBattleFoe.moves[2].move.url)).json();   
     turnMoveFoe4= await (await fetch(pokemonBattleFoe.moves[3].move.url)).json();
     
+    document.getElementById("loader").classList.remove("loader"); 
+    document.getElementById("loadingScreen").classList.remove("loadingScreen");  
     turnMove1=turnMovePokemon11;
     turnMove2=turnMovePokemon12;
     turnMove3=turnMovePokemon13;
@@ -135,7 +137,6 @@ window.onload=async function(){
     slopeHp=slopeHpPokemon1;
     slopeHpFoe=17.5/pokemonBattleFoe.stats[0].base_stat;
 
-    console.log(pokemonBattle);
     arrScript=
 [`A WILD ${pokemonBattleFoe.species.name.toUpperCase()} appeared!`,
 `Go! ${pokemonBattle.species.name.toUpperCase()}!`,
@@ -152,7 +153,6 @@ window.onload=async function(){
 `Come Back! ${pokemonBattle.species.name.toUpperCase()}!`
 ];
     document.getElementById("text").innerHTML=arrScript[0];
-    console.log(arrScript);
     
     drawCanvas();
 }
@@ -431,22 +431,17 @@ function battle(){
             if(hpFoe<0){
                 hpFoe=0;
                 document.getElementById("hpOpp").style.width=`${17.5-hpFoe*slopeHpFoe}vw`;
-                console.log("hpFoe :",hpFoe);
-                console.log("Battle ended you won");
                 document.getElementById("text").innerHTML=arrScript[6]
                 setTimeout(()=>document.getElementById("text").innerHTML=arrScript[7],2000);
                 faint(pokemonFoe);
                 battleStatus=false;
+                setTimeout(()=>window.location.href="index.html",2000);
             }
             else{
                 document.getElementById("hpOpp").style.width=`${17.5-hpFoe*slopeHpFoe}vw`;
-                console.log(document.getElementById("hpOpp").style.width);
-                console.log("hpFoe :",hpFoe);
-                console.log("Opponents turn");
             }
         }
         else{
-            console.log("attack failed");
             document.getElementById("text").innerHTML=arrScript[8];
         }
         if(battleStatus===true){
@@ -482,19 +477,15 @@ function battle(){
                         hpPokemon2=0;
                     }
                     document.getElementById("hp").style.width=`${17-hp*slopeHp}vw`;
-                    console.log("hp :",hp);
                     setTimeout(()=>document.getElementById("text").innerHTML="You lost the battle",2000);
                     battleStatus=false;
+                    setTimeout(()=>window.location.href="index.html",2000);
                 }
                 else{
-                    console.log("hp :",hp);
                     document.getElementById("hp").style.width=`${17-hp*slopeHp}vw`;
-                    console.log(document.getElementById("hp").style.width);
-                    console.log("Your turn");
                 }
             }
             else{
-                console.log("attack failed");
                 setTimeout(()=>document.getElementById("text").innerHTML=arrScript[8],2000);
             }
 

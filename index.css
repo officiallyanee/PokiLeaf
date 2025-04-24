@@ -13,6 +13,35 @@ body{
     height: 100vh;
     background-color: rgb(209, 221, 255);
 }
+.mobileWarning{
+    display:none;
+}
+.instruction{
+    position:flex;
+    width:100vw;
+    height:100vh;
+    z-index:2;
+    background-image: url("./assests/InstructionScreen.png");
+    background-size: 100% 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family:"Pixelify Sans",sans-serif;
+    font-size:4vh;
+}
+.instruction h1{
+    text-align:center;
+    color:rgb(209, 221, 255);
+    padding-bottom: 14vh;
+}
+.script{
+    padding-left: 5vw;
+    color:rgb(38, 50, 111);
+    width:80vw;
+    line-height: 8.5vh;
+    font-size: 5vh;
+    word-spacing: 0.5vw;
+}
 #hpOpp{
     position:fixed;
     height:2vh;
@@ -29,7 +58,7 @@ body{
     width:0vw;
     background-color: rgb(31, 36, 51);
     top:60.6vh;
-    right:11.3vw;
+    right:12.4vw;
     z-index:1;
     animation: load1 6s linear ;
     transition:ease-out 1s;
@@ -128,8 +157,47 @@ body{
     border-radius: 50vh;
     background-color: rgb(108, 125, 174);
 }
+.loadingScreen{
+    height:100vh;
+    width:100vw;
+    display:flex;
+    background-color: rgb(226, 236, 242);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.loader {
+    border: 16px solid #f3f3f3; 
+    border-top: 16px solid #3498db; 
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
   @keyframes typing {
     from { width: 0 }
     to { width: 100% }
   }
   
+@media only screen and (max-width: 1024px) {
+    body{
+        overflow:hidden;
+    }
+    .mobileWarning{
+        display:flex;
+        height: 100vh;
+        width:100vw;
+        background-color: rgb(31, 36, 51);
+        z-index:2;
+        font-size:3vh;
+        font-weight: 600;
+        justify-content: center;
+        align-items: center;
+        color:rgb(255, 255, 255);
+    }
+}

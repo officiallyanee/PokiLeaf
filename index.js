@@ -68,10 +68,8 @@ if (canvas.getContext) {
         }
         xc=Math.abs(-180-hw*5); 
         yc=Math.abs(-50-5*vw);
-        console.log(xc,yc);
         ctx.drawImage(walk,-180-hw*5,-50-5*vw, 960, 540,0, 0, 1000, 1000);
         ctx.imageSmoothingEnabled = false; 
-        console.log(hw,vw); 
         // array[yc][xc]=1;  
     }
     walk.addEventListener("load",walking);
@@ -79,12 +77,9 @@ if (canvas.getContext) {
     window.onkeydown=function event(event){
         if(event.key==="ArrowRight"){
             if(hw<114){
-                console.log(arraytest[-(-50-5*(vw))][-(-180-(hw+1)*5)]);
                 if(arraytest[-(-50-5*(vw))][-(-180-(hw+1)*5)]===1){
                     hw++;
                     walk=arrRightWalk[Math.abs(hw)%2];
-                    console.log(Math.abs(hw)%2);
-                    console.log("right clicked");
                     if(60>hw&&hw>=28){
                         bw++;
                     }
@@ -99,8 +94,6 @@ if (canvas.getContext) {
                     }
                     hw--;
                     walk=arrLeftWalk[Math.abs(hw)%2];
-                    console.log(Math.abs(hw)%2);
-                    console.log("left clicked");
                 }
             }
             else{
@@ -109,8 +102,6 @@ if (canvas.getContext) {
                     if(arraytest[-(-50-5*(vw+1))][-(-180-(hw)*5)]===1){
                         vw++;
                         walk=arrDownWalk[Math.abs(vw)%2];
-                        console.log(Math.abs(vw)%2);
-                        console.log("down clicked");
                     }
                 }
                 else{
@@ -118,8 +109,6 @@ if (canvas.getContext) {
                         if(arraytest[-(-50-5*(vw-1))][-(-180-(hw)*5)]===1){
                             vw--;
                             walk=arrUpWalk[Math.abs(vw)%2];
-                            console.log(Math.abs(vw)%2);
-                            console.log("up clicked");
                         }
                     }
                 }
@@ -137,23 +126,16 @@ if (canvas.getContext) {
         if(event.key==="ArrowRight"){
             if(hw<88){      
                 walk=rightstand;
-                console.log("rightkey up");
             };
         }
         if(event.key==="ArrowLeft"){
             walk=leftstand;
-            console.log("leftkey up");
         }
         if(event.key==="ArrowUp"){
             walk=upstand;
-            console.log("upkey up");
         }
         if(event.key==="ArrowDown"){
             walk=downstand;
-            console.log("downkey up");
-        }
-        if(event.key==="s"){
-            console.log(array);
         }
         drawCanvas();
         walking();

@@ -42,13 +42,99 @@ body{
     font-size: 5vh;
     word-spacing: 0.5vw;
 }
+#pokemon{
+    position:fixed;
+    height:18vh;
+    width:32vw;
+    right:10vw;
+    top:51.4vh;
+    z-index:1;
+    transition:ease-out 1s;
+    display: flex;
+    flex-direction: column;
+}
+#pokemonOpp{
+    position:fixed;
+    height:16vh;
+    width:33vw;
+    right:58vw;
+    top:5vh;
+    z-index:1;
+    transition:ease-out 1s;
+    display: flex;
+    flex-direction: column;
+}
+.pokemonInfo{
+    height:45%;
+    position:relative;
+    width:100%;
+    display:flex;
+    flex-direction: row;
+    font-size:4.5vh;
+    font-weight:800;
+    font-family: "Pixelify Sans",sans-serif;
+    z-index: 1;
+    padding-top:2vh;
+    align-items: center;
+    transition: ease-in-out 1s;
+}
+.pokemonInfoOpp{
+    height:60%;
+    position:relative;
+    width:100%;
+    display:flex;
+    flex-direction: row;
+    font-size:4.5vh;
+    font-weight:800;
+    font-family: "Pixelify Sans",sans-serif;
+    z-index: 1; 
+    padding-top:3vh;
+    align-items: center;
+    transition:ease-in-out 1s;
+}
+#pokemonName{
+    position:relative;
+    height:100%;
+    width:80%; 
+    color:rgb(60, 53, 53);
+    text-align: left;
+    padding-left:1.2vw;
+    z-index: 1;
+}
+#pokemonLv{
+    position:relative;
+    height:100%;
+    width:20%;
+    text-align: right;
+    padding-right: 1.5vw;
+    z-index: 1;
+    color:rgb(60, 53, 53);
+}
+#pokemonNameOpp{
+    position:relative; 
+    height:100%;
+    width:80%;
+    color:rgb(60, 53, 53);
+    text-align: left;
+    padding-left: 1.2vw;
+    z-index: 1;
+}
+#pokemonLvOpp{
+    position:relative;
+    height:100%;
+    width:20%;
+    text-align: right;
+    padding-right: 1.2vw;
+    z-index: 1;
+    color:rgb(60, 53, 53);
+}
 #hpOpp{
     position:fixed;
     height:2vh;
     width:0vw;
     background-color: rgb(31, 36, 51);
     top:16vh;
-    right:59.5vw;
+    right:59.2vw;
     z-index:1;
     transition:ease-out 1s;
 }
@@ -184,7 +270,7 @@ body{
     to { width: 100% }
   }
   
-@media only screen and (max-width: 1024px) {
+@media only screen and (max-width:500px) {
     body{
         overflow:hidden;
     }

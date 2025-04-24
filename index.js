@@ -61,7 +61,7 @@ if (canvas.getContext) {
         if(alertStatus===false){      
             if(xc<=225&&xc>=190){
                 if(yc===120){
-                    alert("Hit enter to fight a wild pokemon.");
+                    alert("Click OK & hit ENTER to fight a wild pokemon.");
                     alertStatus=true;
                 }
             }
@@ -70,7 +70,6 @@ if (canvas.getContext) {
         yc=Math.abs(-50-5*vw);
         ctx.drawImage(walk,-180-hw*5,-50-5*vw, 960, 540,0, 0, 1000, 1000);
         ctx.imageSmoothingEnabled = false; 
-        // array[yc][xc]=1;  
     }
     walk.addEventListener("load",walking);
 

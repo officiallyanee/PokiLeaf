@@ -171,12 +171,21 @@ async function drawHpBar(){
         },5*i)
     }
     await new Promise ((resolve)=>{setTimeout(()=>document.getElementById("text").innerHTML=arrScript[2],2250);resolve()});
-    await new Promise ((resolve)=>{
+      
+    setTimeout(()=>{
+        document.getElementById("pokemonName").innerHTML=pokemonBattle.species.name.toUpperCase();
+        document.getElementById("pokemonNameOpp").innerHTML=pokemonBattleFoe.species.name.toUpperCase();
+        document.getElementById("pokemonLv").innerHTML=1;
+        document.getElementById("pokemonLvOpp").innerHTML=1;
+    },1000);
+    await new Promise ((resolve)=>{ 
         setTimeout(()=>document.getElementById("text").style.fontSize="4vh",4500);
         setTimeout(()=>document.getElementById("text").style.whiteSpace="pre-wrap",4500);
         setTimeout(()=>document.getElementById("text").style.lineHeight="100%",4500);
         setTimeout(()=>document.getElementById("text").innerHTML=arrScript[10],4500);
+      
         resolve()});
+        
 }
 
 async function attack(poki){

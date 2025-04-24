@@ -435,7 +435,7 @@ function battle(){
                 setTimeout(()=>document.getElementById("text").innerHTML=arrScript[7],2000);
                 faint(pokemonFoe);
                 battleStatus=false;
-                setTimeout(()=>window.location.href="index.html",2000);
+                setTimeout(()=>window.location.href="map.html",2000);
             }
             else{
                 document.getElementById("hpOpp").style.width=`${17.5-hpFoe*slopeHpFoe}vw`;
@@ -479,7 +479,7 @@ function battle(){
                     document.getElementById("hp").style.width=`${17-hp*slopeHp}vw`;
                     setTimeout(()=>document.getElementById("text").innerHTML="You lost the battle",2000);
                     battleStatus=false;
-                    setTimeout(()=>window.location.href="index.html",2000);
+                    setTimeout(()=>window.location.href="map.html",2000);
                 }
                 else{
                     document.getElementById("hp").style.width=`${17-hp*slopeHp}vw`;
@@ -522,7 +522,7 @@ window.onkeydown=async function event(e){
             setTimeout(document.getElementById("text").innerHTML=`Press 1, 2 , 3, 4 to ATTACK! Moves:\n 1. ${pokemonBattle.moves[0].move.name.toUpperCase()}    2. ${pokemonBattle.moves[1].move.name.toUpperCase()}\n 3. ${pokemonBattle.moves[2].move.name.toUpperCase()}    4. ${pokemonBattle.moves[3].move.name.toUpperCase()}`,2000);
         }
         if(e.key==="r"){
-            window.location.href="index.html";
+            window.location.href="map.html";
         }  
         if(e.key==="a"){
             let name=pokemonBattle.species.name.toUpperCase();

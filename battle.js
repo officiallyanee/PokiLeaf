@@ -60,12 +60,33 @@ const hpBarOpponent=new Image();
 hpBarOpponent.src="./assests/hpBarOpponent.png";
 
 window.onload=async function(){
+    let count=0;
     for(let i=0;i<3;i++){
         pokemonBattleArr[i]=await (await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonArr[i]}`)).json();
         hpPokemon[i]=pokemonBattleArr[i].stats[0].base_stat;
         slopeHpPokemon[i]=17/pokemonBattleArr[i].stats[0].base_stat;
         for(let j=0;j<4;j++){
             turnMovePokemon[i+1][j+1]= await (await fetch(pokemonBattleArr[i].moves[j].move.url)).json();
+            let pokemonMoves=pokemonBattleArr[i].moves;
+            console.log(pokemonMoves.length);
+            while(count<pokemonMoves.length){     
+                if(turnMovePokemon[i+1][j+1].power==null||turnMovePokemon[i+1][j+1].accuracy==null){              
+                    count++;
+                    turnMovePokemon[i+1][j+1]= await (await fetch(pokemonBattleArr[i].moves[j+count].move.url)).json();
+                }
+                else{
+                    break;
+                }
+                
+            }
+            if(turnMovePokemon[i+1][j+1].power==null||turnMovePokemon[i+1][j+1].accuracy==null){
+                count=0;
+                turnMovePokemon[i+1][j+1]= await (await fetch(pokemonBattleArr[i].moves[j].move.url)).json();
+                turnMovePokemon[i+1][j+1].power=0;
+                turnMovePokemon[i+1][j+1].accuracy=0;
+            }    
+            
+            console.log(turnMovePokemon[i+1][j+1]);
         }
     }
     pokemonBattle=pokemonBattleArr[0];

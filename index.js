@@ -74,7 +74,7 @@ if (canvas.getContext) {
     walk.addEventListener("load",walking);
 
     window.onkeydown=function event(event){
-        if(event.key==="ArrowRight"||event.key==="D"){
+        if(event.key==="ArrowRight"||event.key==="D"||event.key==="d"){
             if(hw<114){
                 if(colliders[-(-50-5*(vw))][-(-180-(hw+1)*5)]===1){
                     hw++;
@@ -86,7 +86,7 @@ if (canvas.getContext) {
             }
         }
         else{
-            if(event.key==="ArrowLeft"||event.key==="A"){
+            if(event.key==="ArrowLeft"||event.key==="A"||event.key==="a"){
                 if(colliders[-(-50-5*(vw))][-(-180-(hw-1)*5)]===1){
                     if(60>hw&&hw>=28){
                         bw--;
@@ -97,14 +97,14 @@ if (canvas.getContext) {
             }
             else{
                 
-                if(event.key==="ArrowDown"||event.key==="S"){
+                if(event.key==="ArrowDown"||event.key==="S"||event.key==="s"){
                     if(colliders[-(-50-5*(vw+1))][-(-180-(hw)*5)]===1){
                         vw++;
                         walk=arrDownWalk[Math.abs(vw)%2];
                     }
                 }
                 else{
-                    if(event.key==="ArrowUp"||event.key==="W"){
+                    if(event.key==="ArrowUp"||event.key==="W"||event.key==="w"){
                         if(colliders[-(-50-5*(vw-1))][-(-180-(hw)*5)]===1){
                             vw--;
                             walk=arrUpWalk[Math.abs(vw)%2];
@@ -122,18 +122,18 @@ if (canvas.getContext) {
         walking();
     }
     window.onkeyup=function event(event){
-        if(event.key==="ArrowRight"||event.key==="D"){
+        if(event.key==="ArrowRight"||event.key==="D"||event.key==="d"){
             if(hw<88){      
                 walk=rightstand;
             };
         }
-        if(event.key==="ArrowLeft"||event.key==="A"){
+        if(event.key==="ArrowLeft"||event.key==="A"||event.key==="a"){
             walk=leftstand;
         }
-        if(event.key==="ArrowUp"||event.key==="W"){
+        if(event.key==="ArrowUp"||event.key==="W"||event.key==="w"){
             walk=upstand;
         }
-        if(event.key==="ArrowDown"||event.key==="S"){
+        if(event.key==="ArrowDown"||event.key==="S"||event.key==="s"){
             walk=downstand;
         }
         drawCanvas();

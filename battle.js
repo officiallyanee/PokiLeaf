@@ -135,8 +135,7 @@ async function drawHpBar(){
             resolve();
         }
         ,5000);
-     });
-    console.log(gameStatus)    
+     });  
 }
 
 async function attack(poki){

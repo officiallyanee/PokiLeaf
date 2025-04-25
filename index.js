@@ -61,11 +61,16 @@ if (canvas.getContext) {
         if(alertStatus===false){      
             if(xc<=225&&xc>=190){
                 if(yc===120){
-                    alert("Click OK & hit ENTER to fight a wild pokemon.");
+                    (document.getElementById("alert")).classList.add("playBarDiv");
+                    document.getElementById("alert").innerHTML="Hit ENTER to fight a wild pokemon";
                     alertStatus=true;
+                }
+                else{
+                    (document.getElementById("alert")).classList.remove("playBarDiv");
                 }
             }
         }
+        alertStatus=false;
         xc=Math.abs(-180-hw*5); 
         yc=Math.abs(-50-5*vw);
         ctx.drawImage(walk,-180-hw*5,-50-5*vw, 960, 540,0, 0, 1000, 1000);
@@ -114,9 +119,11 @@ if (canvas.getContext) {
             }
         }
         if(event.key==="Enter"){
-            if(alertStatus===true){
+            if(xc<=225&&xc>=190){
+                if(yc===120){
                 window.location.href="selection.html";
             }
+        }
         }
         drawCanvas();
         walking();

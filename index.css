@@ -12,6 +12,7 @@ body{
     width:100vw;
     height: 100vh;
     background-color: rgb(209, 221, 255);
+    z-index: 0;
 }
 .mobileWarning{
     display:none;
@@ -151,20 +152,21 @@ body{
 }
 .playBarDiv{
     position:fixed;
+    font-family:"Pixelify Sans",sans-serif;
+    font-size:8vh;
+    color:rgb(209, 221, 255);
     bottom:0;
     width:100vw;
-    z-index:1;
+    z-index:2;
+    letter-spacing: .15em; 
     height:25vh;
     padding-left:8vh;
     padding-right:8vh;
     padding-bottom:4vh;
     padding-top:4vh;
-}
-.playBarDiv{
-    font-family:"Pixelify Sans",sans-serif;
-    font-size:8vh;
-    color:rgb(209, 221, 255);
-    z-index: 1;
+    background-image: url("./assests/PlayBar.png");
+    background-repeat:no-repeat;
+    background-size: 100% 100%;
 }
 .selector{
     font-family:"Pixelify Sans",sans-serif;
@@ -176,13 +178,6 @@ body{
     font-weight: bold;
     padding-top: 2vh;;
 }
-.typewriter {
-    overflow: hidden; 
-    white-space: nowrap;
-    letter-spacing: .15em; 
-    animation: 
-      typing 2s steps(40, end)
-  }
 .selected{
     box-shadow: 0 0 15px rgba(0,0,0,0.1);
 }
@@ -265,10 +260,6 @@ body{
   @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
-  }
-  @keyframes typing {
-    from { width: 0 }
-    to { width: 100% }
   }
   
 @media only screen and (max-width:500px) {

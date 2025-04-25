@@ -392,7 +392,7 @@ function battle(){
                 hpFoe=0;
                 document.getElementById("hpOpp").style.width=`${17.5-hpFoe*slopeHpFoe}vw`;
                 document.getElementById("text").innerHTML=arrScript[6]
-                setTimeout(()=>document.getElementById("text").innerHTML=arrScript[7],2000);
+                setTimeout(()=>document.getElementById("text").innerHTML=arrScript[7],4000);
                 faint(pokemonFoe);
                 battleStatus=false;
                 setTimeout(()=>window.location.href="map.html",2000);
@@ -439,7 +439,7 @@ function battle(){
                     document.getElementById("hp").style.width=`${17-hp*slopeHp}vw`;
                     setTimeout(()=>document.getElementById("text").innerHTML="You lost the battle",2000);
                     battleStatus=false;
-                    setTimeout(()=>window.location.href="map.html",2000);
+                    setTimeout(()=>window.location.href="map.html",4000);
                 }
                 else{
                     document.getElementById("hp").style.width=`${17-hp*slopeHp}vw`;

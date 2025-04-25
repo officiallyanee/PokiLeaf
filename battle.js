@@ -1,24 +1,21 @@
 const canvas = document.getElementById("canvas");
-
 const ctx = canvas.getContext("2d");
-    
 ctx.imageSmoothingEnabled = false; 
 
 const grass = new Image(); 
 grass.src = "./assests/BattleGroundGrass.png"; 
-
 const grassLower = new Image(); 
 grassLower.src = "./assests/BattleGroundGrassLower.png"; 
 
 const playBar = new Image(); 
 playBar.src = "./assests/PlayBar.png"; 
-
 const playerStand= new Image(); 
 playerStand.src = "./assests/battlestand.png";
 
 const battleAudio=new Audio("./assests/battle.mp3");
 battleAudio.play();
 
+let gameStatus="dialogue";
 let pokemonBattle;
 let pokemonBattleFoe;
 let turn=pokemonBattle;
@@ -27,38 +24,14 @@ let hp;
 let hpFoe;
 let battleStatus=true;
 let arrScript;
-let turnMove1;
-let turnMove2;
-let turnMove3;
-let turnMove4;
-let turnMoveFoe1;
-let turnMoveFoe2;
-let turnMoveFoe3;
-let turnMoveFoe4;
-let turnMovePokemon11;
-let turnMovePokemon12;
-let turnMovePokemon13;
-let turnMovePokemon14;
-let turnMovePokemon21;
-let turnMovePokemon22;
-let turnMovePokemon23;
-let turnMovePokemon24;
-let turnMovePokemon31;
-let turnMovePokemon32;
-let turnMovePokemon33;
-let turnMovePokemon34;
-let hpPokemon1;
-let hpPokemon2;
-let hpPokemon3;
-let arrMoveFoe;
+let arrMove=[];
+let turnMovePokemon=[0,[],[],[]];
+let hpPokemon=[];
+let arrMoveFoe=[];
 let slopeHp;
-let slopeHpPokemon1;
-let slopeHpPokemon2;
-let slopeHpPokemon3;
+let slopeHpPokemon=[];
 let slopeHpFoe;
-let pokemonBattle1;
-let pokemonBattle2;
-let pokemonBattle3;
+let pokemonBattleArr=[];
 let playerThrow= new Image();
 const playerThrow1= new Image();
 playerThrow1.src = "./assests/battlethrow1.png";
@@ -71,9 +44,7 @@ playerThrow4.src = "./assests/battlethrow4.png";
 
 const throwArr=[playerThrow1,playerThrow2,playerThrow3,playerThrow4];
 
-
 const pokemonFoe=new Image();
-
 let pokemonArr=JSON.parse(localStorage.getItem("pokemonSelected"));
 const pokemon1=new Image();
 pokemon1.src=`https://raw.githubusercontent.com/PokeAPI/sprites/refs/heads/master/sprites/pokemon/back/${pokemonArr[0]}.png`;
@@ -83,65 +54,42 @@ const pokemon3=new Image();
 pokemon3.src=`https://raw.githubusercontent.com/PokeAPI/sprites/refs/heads/master/sprites/pokemon/back/${pokemonArr[2]}.png`;
 let pokemon=pokemon1;
 
-
 const hpBar=new Image();
 hpBar.src="./assests/hpBar.png";
 const hpBarOpponent=new Image();
 hpBarOpponent.src="./assests/hpBarOpponent.png";
 
 window.onload=async function(){
-    
-    pokemonBattle1=await (await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonArr[0]}`)).json();
-    pokemonBattle2=await (await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonArr[1]}`)).json();
-    pokemonBattle3=await (await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonArr[2]}`)).json();
-    pokemonBattle=pokemonBattle1;
+    for(let i=0;i<3;i++){
+        pokemonBattleArr[i]=await (await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonArr[i]}`)).json();
+        hpPokemon[i]=pokemonBattleArr[i].stats[0].base_stat;
+        slopeHpPokemon[i]=17/pokemonBattleArr[i].stats[0].base_stat;
+        for(let j=0;j<4;j++){
+            turnMovePokemon[i+1][j+1]= await (await fetch(pokemonBattleArr[i].moves[j].move.url)).json();
+        }
+    }
+    pokemonBattle=pokemonBattleArr[0];
     pokemonBattleFoe=await (await fetch(`https://pokeapi.co/api/v2/pokemon/${Math.floor(Math.random() * 15)}`)).json();
     pokemonFoe.src=pokemonBattleFoe.sprites.front_default;
-    
     turn=pokemonBattle;
-    turnMovePokemon11= await (await fetch(pokemonBattle1.moves[0].move.url)).json();
-    turnMovePokemon12= await (await fetch(pokemonBattle1.moves[1].move.url)).json();
-    turnMovePokemon13= await (await fetch(pokemonBattle1.moves[2].move.url)).json();
-    turnMovePokemon14= await (await fetch(pokemonBattle1.moves[3].move.url)).json();
-    turnMovePokemon21= await (await fetch(pokemonBattle2.moves[0].move.url)).json();
-    turnMovePokemon22= await (await fetch(pokemonBattle2.moves[1].move.url)).json();
-    turnMovePokemon23= await (await fetch(pokemonBattle2.moves[2].move.url)).json();
-    turnMovePokemon24= await (await fetch(pokemonBattle2.moves[3].move.url)).json();
-    turnMovePokemon31= await (await fetch(pokemonBattle3.moves[0].move.url)).json();
-    turnMovePokemon32= await (await fetch(pokemonBattle3.moves[1].move.url)).json();
-    turnMovePokemon33= await (await fetch(pokemonBattle3.moves[2].move.url)).json();
-    turnMovePokemon34= await (await fetch(pokemonBattle3.moves[3].move.url)).json();
-    turnMoveFoe1= await (await fetch(pokemonBattleFoe.moves[0].move.url)).json();
-    turnMoveFoe2= await (await fetch(pokemonBattleFoe.moves[1].move.url)).json();
-    turnMoveFoe3= await (await fetch(pokemonBattleFoe.moves[2].move.url)).json();   
-    turnMoveFoe4= await (await fetch(pokemonBattleFoe.moves[3].move.url)).json();
-    
+
+    for(let i=0;i<4;i++){
+        arrMoveFoe[i]=await (await fetch(pokemonBattleFoe.moves[i].move.url)).json();
+        arrMove[i]=turnMovePokemon[1][i+1];
+    }
     document.getElementById("loader").classList.remove("loader"); 
     document.getElementById("loadingScreen").classList.remove("loadingScreen");  
-    turnMove1=turnMovePokemon11;
-    turnMove2=turnMovePokemon12;
-    turnMove3=turnMovePokemon13;
-    turnMove4=turnMovePokemon14;
 
-    arrMoveFoe=[turnMoveFoe1,turnMoveFoe2,turnMoveFoe3,turnMoveFoe4];  
-    hpPokemon1=pokemonBattle1.stats[0].base_stat;
-    hpPokemon3=pokemonBattle3.stats[0].base_stat;
-    hpPokemon2=pokemonBattle2.stats[0].base_stat;
-    hp=hpPokemon1;
-
-    slopeHpPokemon1=17/pokemonBattle1.stats[0].base_stat;
-    slopeHpPokemon3=17/pokemonBattle3.stats[0].base_stat;
-    slopeHpPokemon2=17/pokemonBattle2.stats[0].base_stat;
-
+    hp=hpPokemon[0];
     hpFoe=pokemonBattleFoe.stats[0].base_stat;
-    slopeHp=slopeHpPokemon1;
+    slopeHp=slopeHpPokemon[0];
     slopeHpFoe=17.5/pokemonBattleFoe.stats[0].base_stat;
 
     arrScript=
 [`A WILD ${pokemonBattleFoe.species.name.toUpperCase()} appeared!`,
 `Go! ${pokemonBattle.species.name.toUpperCase()}!`,
 `What will ${pokemonBattle.species.name.toUpperCase()} do?`,
-`Press 1, 2 , 3, 4 to ATTACK! Moves:\n 1. ${pokemonBattle.moves[0].move.name.toUpperCase()}    2. ${pokemonBattle.moves[1].move.name.toUpperCase()}\n 3. ${pokemonBattle.moves[2].move.name.toUpperCase()}    4. ${pokemonBattle.moves[3].move.name.toUpperCase()}`,
+`Press 1, 2 , 3, 4 to ATTACK! Moves:\n 1. ${pokemonBattle.moves[0].move.name.toUpperCase()}(${arrMove[0].power}/${arrMove[0].accuracy}%)    2. ${pokemonBattle.moves[1].move.name.toUpperCase()}(${arrMove[1].power}/${arrMove[1].accuracy}%)\n 3. ${pokemonBattle.moves[2].move.name.toUpperCase()}(${arrMove[2].power}/${arrMove[2].accuracy}%)    4. ${pokemonBattle.moves[3].move.name.toUpperCase()}(${arrMove[3].power}/${arrMove[3].accuracy}%)`,
 `{0} used {1}!`,
 `WILD {0} used {1}!`,
 `WILD ${pokemonBattleFoe.species.name.toUpperCase()} fainted`,
@@ -149,11 +97,10 @@ window.onload=async function(){
 'Attack Failed',
 `You lost`,
 `Press \n f:FIGHT  s:SWITCH POKEMON  r:RUN`,
-`Switch \n a:${pokemonBattle1.species.name.toUpperCase()}  b:${pokemonBattle2.species.name.toUpperCase()}  c:${pokemonBattle3.species.name.toUpperCase()}`,
+`Switch \n a:${pokemonBattleArr[0].species.name.toUpperCase()}  b:${pokemonBattleArr[1].species.name.toUpperCase()}  c:${pokemonBattleArr[2].species.name.toUpperCase()}`,
 `Come Back! ${pokemonBattle.species.name.toUpperCase()}!`
 ];
     document.getElementById("text").innerHTML=arrScript[0];
-    
     drawCanvas();
 }
 
@@ -183,9 +130,13 @@ async function drawHpBar(){
         setTimeout(()=>document.getElementById("text").style.whiteSpace="pre-wrap",4500);
         setTimeout(()=>document.getElementById("text").style.lineHeight="100%",4500);
         setTimeout(()=>document.getElementById("text").innerHTML=arrScript[10],4500);
-      
-        resolve()});
-        
+        setTimeout(()=>{
+            gameStatus="battle";   
+            resolve();
+        }
+        ,5000);
+     });
+    console.log(gameStatus)    
 }
 
 async function attack(poki){
@@ -463,27 +414,27 @@ function battle(){
         if(turn===pokemonBattleFoe){
             document.getElementById("text").innerHTML=arrScript[5].replace("{1}",turnMove.name).replace("{0}",turn.species.name.toUpperCase());
             if(turnMove.accuracy>Math.random()*100){
-                if(hp===hpPokemon1){
-                    hpPokemon1-=(turnMove.power)/10;
+                if(hp===hpPokemon[0]){
+                    hpPokemon[0]-=(turnMove.power)/10;
                 }
-                if(hp===hpPokemon3){
-                    hpPokemon3-=(turnMove.power)/10;
+                if(hp===hpPokemon[2]){
+                    hpPokemon[2]-=(turnMove.power)/10;
                 }
-                if(hp===hpPokemon2){
-                    hpPokemon2-=(turnMove.power)/10;
+                if(hp===hpPokemon[1]){
+                    hpPokemon[1]-=(turnMove.power)/10;
                 }
                 hp-=(turnMove.power)/10;
                 attack(pokemon);
                 if(hp<0){
                     hp=0;
-                    if(hpPokemon1<0){
-                        hpPokemon1=0;
+                    if(hpPokemon[0]<0){
+                        hpPokemon[0]=0;
                     }
-                    if(hpPokemon3<0){
-                        hpPokemon3=0;
+                    if(hpPokemon[2]<0){
+                        hpPokemon[2]=0;
                     }
-                    if(hpPokemon2<0){
-                        hpPokemon2=0;
+                    if(hpPokemon[1]<0){
+                        hpPokemon[1]=0;
                     }
                     document.getElementById("hp").style.width=`${17-hp*slopeHp}vw`;
                     setTimeout(()=>document.getElementById("text").innerHTML="You lost the battle",2000);
@@ -504,85 +455,103 @@ function battle(){
             }
         }
     }
+    gameStatus="battle";
 } 
 
 window.onkeydown=async function event(e){
-    if(battleStatus===true){
-        if(e.key==="1"){
-            turnMove=turnMove1;
-            battle();
-        }
-        if(e.key==="2"){
-            turnMove=turnMove2;
-            battle();
-        }
-        if(e.key==="3"){
-            turnMove=turnMove3;
-            battle();
-        }
-        if(e.key==="4"){
-            turnMove=turnMove4;
-            battle();
+    if(battleStatus===true&&gameStatus!=="dialogue"){
+        if(gameStatus==="fight"){              
+            if(e.key==="1"){
+                turnMove=arrMove[0];
+                battle();
+                gameStatus="dialogue";
+            }
+            if(e.key==="2"){
+                turnMove=arrMove[1];
+                battle();
+                gameStatus="dialogue";
+            }
+            if(e.key==="3"){
+                turnMove=arrMove[2];
+                battle();
+                gameStatus="dialogue";
+            }
+            if(e.key==="4"){
+                turnMove=arrMove[3];
+                battle();
+                gameStatus="dialogue";
+            }
         }
         if(e.key==="s"){
             setTimeout(()=>document.getElementById("text").innerHTML=arrScript[11],1000);
+            gameStatus="switch";
         }
         if(e.key==="f"){
-            setTimeout(document.getElementById("text").innerHTML=`Press 1, 2 , 3, 4 to ATTACK! Moves:\n 1. ${pokemonBattle.moves[0].move.name.toUpperCase()}    2. ${pokemonBattle.moves[1].move.name.toUpperCase()}\n 3. ${pokemonBattle.moves[2].move.name.toUpperCase()}    4. ${pokemonBattle.moves[3].move.name.toUpperCase()}`,2000);
+            setTimeout(document.getElementById("text").innerHTML=`Press 1, 2 , 3, 4 to ATTACK! Moves:\n 1. ${pokemonBattle.moves[0].move.name.toUpperCase()}(${arrMove[0].power}/${arrMove[0].accuracy}%)    2. ${pokemonBattle.moves[1].move.name.toUpperCase()}(${arrMove[1].power}/${arrMove[1].accuracy}%)\n 3. ${pokemonBattle.moves[2].move.name.toUpperCase()}(${arrMove[2].power}/${arrMove[2].accuracy}%)    4. ${pokemonBattle.moves[3].move.name.toUpperCase()}(${arrMove[3].power}/${arrMove[3].accuracy}%)`,2000);
+            gameStatus="fight";
         }
         if(e.key==="r"){
             window.location.href="map.html";
+        }
+        if(gameStatus==="switch"){    
+            if(e.key==="a"){
+                let name=pokemonBattle.species.name.toUpperCase();
+                setTimeout(()=>document.getElementById("text").innerHTML=`Come Back! ${name}!`,1000);
+                pokemon=pokemon1;
+                pokemonBattle=pokemonBattleArr[0];
+                turn=pokemonBattle;
+                hp=hpPokemon[0];
+                slopeHp=slopeHpPokemon[0];
+                arrMove[0]=turnMovePokemon[1][1];
+                arrMove[1]=turnMovePokemon[1][2];
+                arrMove[2]=turnMovePokemon[1][3];
+                arrMove[3]=turnMovePokemon[1][4];
+                document.getElementById("hp").style.width=`${17-hp*slopeHp}vw`;
+                setTimeout(()=>switchPokemon(pokemon),3000);
+                setTimeout(()=>document.getElementById("text").innerHTML=`Go! ${pokemonBattle.species.name.toUpperCase()}!`,3000);
+                setTimeout(()=>document.getElementById("pokemonName").innerHTML=`${pokemonBattle.species.name.toUpperCase()}`,3000);
+                setTimeout(()=>document.getElementById("text").innerHTML=arrScript[10],4000);
+                gameStatus="battle";
+            }
+            if(e.key==="b"){
+                let name=pokemonBattle.species.name.toUpperCase();
+                setTimeout(()=>document.getElementById("text").innerHTML=`Come Back! ${name}!`,1000);
+                pokemon=pokemon2;
+                pokemonBattle=pokemonBattleArr[1];
+                turn=pokemonBattle;
+                hp=hpPokemon[1];
+                slopeHp=slopeHpPokemon[1];
+                arrMove[0]=turnMovePokemon[2][1];
+                arrMove[1]=turnMovePokemon[2][2];
+                arrMove[2]=turnMovePokemon[2][3];
+                arrMove[3]=turnMovePokemon[2][4];
+                document.getElementById("hp").style.width=`${17-hp*slopeHp}vw`;
+                setTimeout(()=>switchPokemon(pokemon),3000);
+                setTimeout(()=>document.getElementById("text").innerHTML=`Go! ${pokemonBattle.species.name.toUpperCase()}!`,3000);
+                setTimeout(()=>document.getElementById("pokemonName").innerHTML=`${pokemonBattle.species.name.toUpperCase()}`,3000);
+                setTimeout(()=>document.getElementById("text").innerHTML=arrScript[10],4000);
+                gameStatus="battle";
+                
+            }
+            if(e.key==="c"){
+                let name=pokemonBattle.species.name.toUpperCase();
+                setTimeout(()=>document.getElementById("text").innerHTML=`Come Back! ${name}!`,1000);
+                pokemon=pokemon3;
+                pokemonBattle=pokemonBattleArr[2];
+                turn=pokemonBattle;
+                hp=hpPokemon[2];
+                slopeHp=slopeHpPokemon[2];
+                arrMove[0]=turnMovePokemon[3][1];
+                arrMove[1]=turnMovePokemon[3][2];
+                arrMove[2]=turnMovePokemon[3][3];
+                arrMove[3]=turnMovePokemon[3][4];
+                document.getElementById("hp").style.width=`${17-hp*slopeHp}vw`;
+                setTimeout(()=>switchPokemon(pokemon),3000);
+                setTimeout(()=>document.getElementById("text").innerHTML=`Go! ${pokemonBattle.species.name.toUpperCase()}!`,3000);
+                setTimeout(()=>document.getElementById("pokemonName").innerHTML=`${pokemonBattle.species.name.toUpperCase()}`,3000);
+                setTimeout(()=>document.getElementById("text").innerHTML=arrScript[10],4000);
+                gameStatus="battle";
+            }
         }  
-        if(e.key==="a"){
-            let name=pokemonBattle.species.name.toUpperCase();
-            setTimeout(()=>document.getElementById("text").innerHTML=`Come Back! ${name}!`,1000);
-            pokemon=pokemon1;
-            pokemonBattle=pokemonBattle1;
-            turn=pokemonBattle;
-            hp=hpPokemon1;
-            slopeHp=slopeHpPokemon1;
-            turnMove1=turnMovePokemon11;
-            turnMove2=turnMovePokemon12;
-            turnMove3=turnMovePokemon13;
-            turnMove4=turnMovePokemon14;
-            document.getElementById("hp").style.width=`${17-hp*slopeHp}vw`;
-            setTimeout(()=>switchPokemon(pokemon),3000);
-            setTimeout(()=>document.getElementById("text").innerHTML=`Go! ${pokemonBattle.species.name.toUpperCase()}!`,3000);
-            setTimeout(()=>document.getElementById("text").innerHTML=arrScript[10],4000);
-        }
-        if(e.key==="b"){
-            let name=pokemonBattle.species.name.toUpperCase();
-            setTimeout(()=>document.getElementById("text").innerHTML=`Come Back! ${name}!`,1000);
-            pokemon=pokemon2;
-            pokemonBattle=pokemonBattle2;
-            turn=pokemonBattle;
-            hp=hpPokemon2;
-            slopeHp=slopeHpPokemon2;
-            turnMove1=turnMovePokemon21;
-            turnMove2=turnMovePokemon22;
-            turnMove3=turnMovePokemon23;
-            turnMove4=turnMovePokemon24;
-            document.getElementById("hp").style.width=`${17-hp*slopeHp}vw`;
-            setTimeout(()=>switchPokemon(pokemon),3000);
-            setTimeout(()=>document.getElementById("text").innerHTML=`Go! ${pokemonBattle.species.name.toUpperCase()}!`,3000);
-            setTimeout(()=>document.getElementById("text").innerHTML=arrScript[10],4000);
-        }
-        if(e.key==="c"){
-            let name=pokemonBattle.species.name.toUpperCase();
-            setTimeout(()=>document.getElementById("text").innerHTML=`Come Back! ${name}!`,1000);
-            pokemon=pokemon3;
-            pokemonBattle=pokemonBattle3;
-            turn=pokemonBattle;
-            hp=hpPokemon3;
-            slopeHp=slopeHpPokemon3;
-            turnMove1=turnMovePokemon31;
-            turnMove2=turnMovePokemon32;
-            turnMove3=turnMovePokemon33;
-            turnMove4=turnMovePokemon34;
-            document.getElementById("hp").style.width=`${17-hp*slopeHp}vw`;
-            setTimeout(()=>switchPokemon(pokemon),3000);
-            setTimeout(()=>document.getElementById("text").innerHTML=`Go! ${pokemonBattle.species.name.toUpperCase()}!`,3000);
-            setTimeout(()=>document.getElementById("text").innerHTML=arrScript[10],4000);
-        }
     }
 }

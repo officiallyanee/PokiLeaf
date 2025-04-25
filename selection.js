@@ -4,14 +4,16 @@ for(let i=0;i<10;i++){
     pokemonArr[i]=(random += Math.floor(Math.random()*100)+1);
 }
 let pokemonNameArr=[];
-let pokemonSelection=[false,false,false,false,false,false,false,false,false,false];
-let pokemonSelected=[0,0,0,0,0,0,0,0,0,0];    
+let pokemonSelection=[];
+let pokemonSelected=[];    
  
 const bgmusic=new Audio("./assests/bgmusic.mp3");
 bgmusic.play();
 window.onload=async function(){
     for(let i=0;i<10;i++){
         pokemonNameArr[i]=(await (await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonArr[i]}`)).json()).species.name.toUpperCase();
+        pokemonSelection[i]=false;
+        pokemonSelected[i]=0;
     }
     document.getElementById("loader").classList.remove("loader"); 
     document.getElementById("loadingScreen").classList.remove("loadingScreen");  

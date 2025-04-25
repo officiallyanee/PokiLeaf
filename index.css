@@ -164,6 +164,7 @@ body{
     font-family:"Pixelify Sans",sans-serif;
     font-size:8vh;
     color:rgb(209, 221, 255);
+    z-index: 1;
 }
 .selector{
     font-family:"Pixelify Sans",sans-serif;

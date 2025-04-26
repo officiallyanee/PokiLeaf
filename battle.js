@@ -68,7 +68,6 @@ window.onload=async function(){
         for(let j=0;j<4;j++){
             turnMovePokemon[i+1][j+1]= await (await fetch(pokemonBattleArr[i].moves[j].move.url)).json();
             let pokemonMoves=pokemonBattleArr[i].moves;
-            console.log(pokemonMoves.length);
             while(count<pokemonMoves.length){     
                 if(turnMovePokemon[i+1][j+1].power==null||turnMovePokemon[i+1][j+1].accuracy==null){              
                     count++;
@@ -86,9 +85,9 @@ window.onload=async function(){
                 turnMovePokemon[i+1][j+1].accuracy=0;
             }    
             
-            console.log(turnMovePokemon[i+1][j+1]);
         }
     }
+   
     pokemonBattle=pokemonBattleArr[0];
     pokemonBattleFoe=await (await fetch(`https://pokeapi.co/api/v2/pokemon/${Math.floor(Math.random() * 15)}`)).json();
     pokemonFoe.src=pokemonBattleFoe.sprites.front_default;

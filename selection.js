@@ -1,13 +1,19 @@
 let random=Math.floor(Math.random()*3)+1;
 let pokemonArr=[];
+
+let pokemonNotSelected=[132, 201, 235, 789, 790]; 
 for(let i=0;i<10;i++){
     pokemonArr[i]=(random += Math.floor(Math.random()*100)+1);
+    if(pokemonNotSelected.includes(pokemonArr[i])){
+        pokemonArr[i]=(random += Math.floor(Math.random()*100)+1)-1;
+    }
 }
 let pokemonNameArr=[];
 let pokemonSelection=[];
-let pokemonSelected=[];    
+let pokemonSelected=[];   
  
 const bgmusic=new Audio("./assests/bgmusic.mp3");
+bgmusic.loop=true;
 bgmusic.play();
 window.onload=async function(){
     for(let i=0;i<10;i++){
@@ -17,8 +23,8 @@ window.onload=async function(){
     }
     document.getElementById("loader").classList.remove("loader"); 
     document.getElementById("loadingScreen").classList.remove("loadingScreen");  
+   
     for (let i = 0; i < pokemonArr.length; i++) {
-        console.log( document.getElementsByClassName("pokemon"+(i+1)));
         document.getElementById("pokemon"+(i+1)).appendChild(document.createElement("img")).src=`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonArr[i]}.png`;
         document.getElementById("pokemon"+(i+1)).appendChild(document.createElement("p")).innerHTML=pokemonNameArr[i];
         document.getElementById("pokemon"+(i+1)).addEventListener("click",

@@ -1,3 +1,5 @@
+import { getMoveStats, getPokemonObject } from "./utils.js";
+
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 ctx.imageSmoothingEnabled = false; 
@@ -62,16 +64,16 @@ hpBarOpponent.src="./assests/hpBarOpponent.png";
 window.onload=async function(){
     let count=0;
     for(let i=0;i<3;i++){
-        pokemonBattleArr[i]=await (await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonArr[i]}`)).json();
+        pokemonBattleArr[i]=await getPokemonObject(pokemonArr[i]);
         hpPokemon[i]=pokemonBattleArr[i].stats[0].base_stat;
         slopeHpPokemon[i]=17/pokemonBattleArr[i].stats[0].base_stat;
         for(let j=0;j<4;j++){
-            turnMovePokemon[i+1][j+1]= await (await fetch(pokemonBattleArr[i].moves[j].move.url)).json();
+            turnMovePokemon[i+1][j+1]= await getMoveStats(pokemonBattleArr[i],j);
             let pokemonMoves=pokemonBattleArr[i].moves;
             while(count<pokemonMoves.length){     
                 if(turnMovePokemon[i+1][j+1].power==null||turnMovePokemon[i+1][j+1].accuracy==null){              
                     count++;
-                    turnMovePokemon[i+1][j+1]= await (await fetch(pokemonBattleArr[i].moves[j+count].move.url)).json();
+                    turnMovePokemon[i+1][j+1]=await getMoveStats(pokemonBattleArr[i],j+count);
                 }
                 else{
                     break;
@@ -80,7 +82,7 @@ window.onload=async function(){
             }
             if(turnMovePokemon[i+1][j+1].power==null||turnMovePokemon[i+1][j+1].accuracy==null){
                 count=0;
-                turnMovePokemon[i+1][j+1]= await (await fetch(pokemonBattleArr[i].moves[j].move.url)).json();
+                turnMovePokemon[i+1][j+1]= await getMoveStats(pokemonBattleArr[i],j);
                 turnMovePokemon[i+1][j+1].power=0;
                 turnMovePokemon[i+1][j+1].accuracy=0;
             }    
@@ -89,12 +91,12 @@ window.onload=async function(){
     }
    
     pokemonBattle=pokemonBattleArr[0];
-    pokemonBattleFoe=await (await fetch(`https://pokeapi.co/api/v2/pokemon/${Math.floor(Math.random() * 15)}`)).json();
+    pokemonBattleFoe=await getPokemonObject(Math.floor(Math.random() * 15));
     pokemonFoe.src=pokemonBattleFoe.sprites.front_default;
     turn=pokemonBattle;
 
     for(let i=0;i<4;i++){
-        arrMoveFoe[i]=await (await fetch(pokemonBattleFoe.moves[i].move.url)).json();
+        arrMoveFoe[i]=await getMoveStats(pokemonBattleFoe,i);
         arrMove[i]=turnMovePokemon[1][i+1];
     }
     document.getElementById("loader").classList.remove("loader"); 

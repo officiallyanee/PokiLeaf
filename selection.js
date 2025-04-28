@@ -1,12 +1,9 @@
+import { getPokemonMoves, getPokemonName } from "./utils.js";
+
 let random=Math.floor(Math.random()*3)+1;
 let pokemonArr=[];
-
-let pokemonNotSelected=[132, 201, 235, 789, 790]; 
 for(let i=0;i<10;i++){
     pokemonArr[i]=(random += Math.floor(Math.random()*100)+1);
-    if(pokemonNotSelected.includes(pokemonArr[i])){
-        pokemonArr[i]=(random += Math.floor(Math.random()*100)+1)-1;
-    }
 }
 let pokemonNameArr=[];
 let pokemonSelection=[];
@@ -17,10 +14,19 @@ bgmusic.loop=true;
 bgmusic.play();
 window.onload=async function(){
     for(let i=0;i<10;i++){
-        pokemonNameArr[i]=(await (await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonArr[i]}`)).json()).species.name.toUpperCase();
+        let pokemonMoves=await getPokemonMoves(pokemonArr[i]);
+        while(pokemonMoves.length<4)
+            {
+                pokemonArr[i]+= 1;
+                pokemonMoves=await getPokemonMoves(pokemonArr[i]);
+            };
+    }
+    for(let i=0;i<10;i++){
+        pokemonNameArr[i]=await getPokemonName(pokemonArr[i]);
         pokemonSelection[i]=false;
         pokemonSelected[i]=0;
     }
+
     document.getElementById("loader").classList.remove("loader"); 
     document.getElementById("loadingScreen").classList.remove("loadingScreen");  
    

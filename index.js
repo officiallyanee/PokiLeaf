@@ -148,7 +148,5 @@ if (canvas.getContext) {
     };
     
 
-} else {
-    console.log("Canvas not supported");
-}
+} 
 

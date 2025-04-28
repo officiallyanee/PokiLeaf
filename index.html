@@ -20,17 +20,7 @@
     </div>
     <script>
         let pokemonArr=[];
-        window.onkeydown=async function event(event){if(event.key==="Enter"){window.location.href="map.html";}
-        for(let i=0;i<1118;i++){
-            let pokemon = await fetch(`https://pokeapi.co/api/v2/pokemon/${i+1}`)
-                                .then(async res => await res.json());
-            let move=pokemon.moves.length;
-            if(move<4){
-                pokemonArr.push(i+1);
-            }
-        }
-        console.log(pokemonArr);
-    }
+        window.onkeydown=async function event(event){if(event.key==="Enter"){window.location.href="map.html";}}
     </script>
 </body>
 </html>
